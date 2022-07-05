@@ -1,0 +1,64 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(50, 182, 184);
+    font-family: 'Inter', sans-serif;
+}
+
+.block {
+    padding: 2rem 2rem 1rem 2rem;
+
+    background-color: white;
+    border-radius: 1rem;
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+@media (max-width: 50rem) {
+    .block {
+        width: 75%;
+    }
+}
+
+.header {
+    font-weight: 800;
+    font-size: 1.5rem;
+}
+
+.description {
+    font-style: italic;
+    font-size: 0.9rem;
+    color: rgba(0, 0, 0, 0.6);
+    text-align: center;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    background-color: rgb(8, 103, 131);
+    color: white;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+
+
+.upload {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: stretch;
+}
+
+.fileName {
+    display: flex;
+    gap: 0.5rem;
+}

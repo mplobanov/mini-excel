@@ -1,0 +1,9 @@
+.tableHeaderCell {
+    min-width: 5rem;
+    padding: 2rem 0;
+    border: none;
+    margin: 0;
+    text-align: left;
+    user-select: none;
+    cursor: pointer;
+}

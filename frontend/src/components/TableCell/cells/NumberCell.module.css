@@ -1,0 +1,9 @@
+.line {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.hidden {
+    opacity: 0.6;
+}

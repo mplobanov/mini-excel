@@ -1,0 +1,71 @@
+.container {
+    min-height: 100vh;
+    width: 100vw;
+    height: 100vh;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+    overflow-x: auto;
+
+}
+
+.header {
+    padding: 2rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    z-index: 1;
+    background-color: transparent;
+    position: sticky;
+    left:0;
+}
+
+table {
+    border: none;
+    border-collapse: collapse;
+    table-layout: fixed;
+    margin: 0;
+    min-width: 100%;
+}
+
+.tableContainer {
+    min-width: 100vw;
+    border: none;
+    padding: 0;
+    border-collapse: collapse;
+    flex-grow: 1;
+    white-space: nowrap;
+}
+
+.headRow {
+    width: 100%;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+thead {
+    background-color: white;
+}
+
+.tableHeaderCell {
+    min-width: 5rem;
+    padding: 2rem 1rem;
+    border: none;
+    margin: 0;
+    text-align: left;
+    user-select: none;
+    cursor: pointer;
+}
+
+.tableDataCell {
+    border: none;
+    margin: 0;
+    text-align: left;
+    padding: 1rem 1rem;
+
+}
+
+.tableDataCell > a {
+    text-decoration: none;
+    color: black;
+}
