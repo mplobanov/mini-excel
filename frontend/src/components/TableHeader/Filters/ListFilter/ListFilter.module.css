@@ -28,6 +28,7 @@
     justify-content: center;
     align-items: center;
     color: rgb(8, 103, 131);
+    cursor: pointer;
 }
 
 .text {
@@ -35,10 +36,15 @@
     display: flex;
     text-align: left;
     align-items: center;
+    cursor: pointer;
 }
 
 .tickHidden {
     visibility: hidden;
+}
+
+.displayNone {
+    display: none;
 }
 
 .clear {
@@ -47,3 +53,15 @@
     cursor: pointer;
 }
 
+.title {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.loader {
+    grid-column: 1 / span 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

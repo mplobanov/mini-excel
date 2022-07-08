@@ -4,5 +4,6 @@
 
 export type UniqueValues = {
     values: Array<(number | string)>;
+    has_more?: boolean;
 };
 

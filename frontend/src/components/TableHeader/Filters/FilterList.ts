@@ -3,6 +3,7 @@ import {ListFilter} from "./ListFilter/ListFilter";
 import {ToFilter} from "./FromToFilters/ToFilter";
 import {QuantileFilter} from "./QuantileFilter/QuantileFilter";
 import React from "react";
+import {SortFilter} from "./QuantileFilter/SortFilter";
 
 export interface FilterProps {
     name: string
@@ -15,4 +16,5 @@ export const FilterList: {
     ListFilter: ListFilter,
     ToFilter: ToFilter,
     QuantileFilter: QuantileFilter,
+    SortFilter: SortFilter,
 }

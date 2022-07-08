@@ -1,6 +1,6 @@
 import pandas as pd
 from models import *
-from filters import filterDF, ListFilter, FromFilter, ToFilter, QuantileFilter
+from filters import filterDF, ListFilter, FromFilter, ToFilter, QuantileFilter, SortFilter
 import numpy as np
 
 
@@ -20,10 +20,10 @@ def get_type(df: pd.DataFrame, field_name: str) -> str:
 
 
 FILTERS = {
-    'string': [ListFilter],
-    'number': [ListFilter, FromFilter, ToFilter, QuantileFilter],
-    'float': [ListFilter, FromFilter, ToFilter, QuantileFilter],
-    'datetime': [ListFilter]
+    'string': [SortFilter, ListFilter],
+    'number': [SortFilter, ListFilter, FromFilter, ToFilter, QuantileFilter],
+    'float': [SortFilter, ListFilter, FromFilter, ToFilter, QuantileFilter],
+    'datetime': [SortFilter, ListFilter]
 }
 
 
@@ -52,13 +52,14 @@ def get_table(file_id: str, limit: int = 20, filter_group: FilterGroup = FilterG
     }, has_more=has_more))
 
 
-def get_unique_vals(file_id: str, field_name: str, limit: int) -> list[ValueType]:
+def get_unique_vals(file_id: str, field_name: str, limit: int) -> tuple[list[ValueType], bool]:
     df = get_tbl(file_id)
     lst = list(df[field_name].unique())
     lst.sort()
     if len(lst) > 0 and type(lst[0]) == np.datetime64:
         lst = [str(x)[:10] for x in lst]
-    return lst[:limit]
+    has_more = len(lst) > limit
+    return lst[:limit], has_more
 
 
 def get_filters(file_id: str, field_name: str) -> list[str]:

@@ -39,7 +39,7 @@ export const Table = ({table, onInfiniteScroll}: TableProps) => {
     }, [handleObserver]);
 
     return <div className={styles.container}>
-        <div className={styles.header}>{table.meta?.name ?? "Таблица"}</div>
+        <div className={styles.header}>{"Таблица Excel"}</div>
         <div className={styles.tableContainer}>
             <table>
                 <colgroup>
@@ -64,7 +64,5 @@ export const Table = ({table, onInfiniteScroll}: TableProps) => {
             </table>
             {hasMore && <div className={styles.loader} ref={ref}><ReactLoading type={'bubbles'} width={'60px'} height={'60px'} color={'rgb(8, 103, 131)'} /> </div>}
         </div>
-
-
     </div>;
 };

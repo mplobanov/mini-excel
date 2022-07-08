@@ -19,6 +19,7 @@ class Table(BaseModel):
 
 class UniqueValues(BaseModel):
     values: list[ValueType]
+    has_more: bool = False
 
 
 class FilterNames(BaseModel):

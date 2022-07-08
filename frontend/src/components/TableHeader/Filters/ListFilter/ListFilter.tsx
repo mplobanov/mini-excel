@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useEffect, useMemo, useState} from "react";
+import React, {useCallback, useContext, useEffect, useMemo, useRef, useState} from "react";
 import {FilterProps} from "../FilterList";
 import {TableFilterContext, TableFilterContextValue} from "../../../../pages/TablePage/TableFilterContext";
 import {useFieldFilter} from "../useFieldFilter";
@@ -6,6 +6,7 @@ import styles from './ListFilter.module.css';
 import {DefaultService} from "../../../../services/openapi";
 import moment from "moment";
 import 'moment/locale/ru';
+import ReactLoading from "react-loading";
 
 export const ListFilter: React.FC<FilterProps> = ({name: fieldName}) => {
     const tableContext = useContext<TableFilterContextValue>(TableFilterContext);
@@ -18,19 +19,50 @@ export const ListFilter: React.FC<FilterProps> = ({name: fieldName}) => {
 
     const {updateArgs} = useFieldFilter('ListFilter', fieldName);
     const [values, setValues] = useState<Map<string | number, boolean>>(new Map());
+    const [collapsed, setCollapsed] = useState<boolean>(true);
+
+    const toggleCollapsed = useCallback(() => {
+        setCollapsed(old => !old);
+    }, []);
+
+    const [limit, setLimit] = useState<number>(20);
+    const ref = useRef<HTMLDivElement>(null);
+
+    const handleObserver = useCallback<IntersectionObserverCallback>((entries) => {
+        const target = entries[0];
+        if (target.isIntersecting) {
+            setLimit(old => old + 20);
+        }
+    }, []);
 
     useEffect(() => {
-        DefaultService.getUniqueReqFileIdUniqueGet(fileId, fieldName).then(res => {
+        const option = {
+            root: null,
+            rootMargin: "20px",
+            threshold: 0
+        };
+        const observer = new IntersectionObserver(handleObserver, option);
+        if (ref.current) observer.observe(ref.current);
+        return () => {
+            observer.disconnect();
+        }
+    }, [handleObserver]);
+
+    const [hasMore, setHasMore] = useState<boolean>(true);
+
+    useEffect(() => {
+        DefaultService.getUniqueReqFileIdUniqueGet(fileId, fieldName, limit).then(res => {
             setValues(oldValues => {
                 const newValues = new Map<string | number, boolean>();
                 res.values.forEach(value => {
                     let nv = value;
                     newValues.set(nv, oldValues.get(nv) ?? false)
                 })
+                setHasMore(res.has_more ?? false);
                 return newValues;
             });
         })
-    }, [cellType, fieldName, fileId]);
+    }, [cellType, fieldName, fileId, limit]);
 
     const toggleValue = useCallback((val: string | number) => {
         setValues(oldMap => {
@@ -59,8 +91,9 @@ export const ListFilter: React.FC<FilterProps> = ({name: fieldName}) => {
     }, []);
 
     return <div className={styles.bigContainer}>
-        Значения
-        <div className={styles.container}>
+        <span onClick={toggleCollapsed} className={styles.title}>Значения
+        <span className="material-icons-outlined">{collapsed ? 'arrow_right': 'arrow_drop_down'}</span></span>
+        <div className={`${styles.container} ${collapsed && styles.displayNone}`}>
         {Array.from(values.keys()).sort().map((value, i) =>
             <>
                 <span key={2 * i + 1} onClick={() => toggleValue(value)} >
@@ -69,6 +102,7 @@ export const ListFilter: React.FC<FilterProps> = ({name: fieldName}) => {
                 <span key={2 * i + 2} onClick={() => toggleValue(value)} className={`${styles.text}`}>{cellType === 'datetime' ? moment(value).locale('ru').format('D MMMM YYYY'): value}</span>
             </>
         )}
+            {hasMore && <div className={styles.loader} ref={ref}><ReactLoading type={'bubbles'} width={'30px'} height={'30px'} color={'rgb(8, 103, 131)'} /> </div>}
     </div>
-    <div className={styles.clear} onClick={handleClear}>Сбросить</div></div>
+    <div className={`${styles.clear} ${collapsed && styles.displayNone}`} onClick={handleClear}>Сбросить</div></div>
 }

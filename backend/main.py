@@ -51,7 +51,8 @@ async def get_file(file_id: str, limit: int = 20, filter_group: FilterGroup = Fi
 
 @app.get('/{file_id}/unique}', response_model=UniqueValues)
 async def get_unique_req(file_id: str, field: str, limit: int = 20):
-    return UniqueValues(values=get_unique_vals(file_id, field, limit))
+    vals, has_more = get_unique_vals(file_id, field, limit)
+    return UniqueValues(values=vals, has_more=has_more)
 
 
 @app.get('/{file_id}/filters}', response_model=FilterNames)

@@ -12,6 +12,9 @@
     z-index: 2;
     /*width: 100%;*/
     min-width: 10rem;
+    max-height: 35rem;
+    overflow-y: auto;
+    cursor: default;
 }
 
 .left {
