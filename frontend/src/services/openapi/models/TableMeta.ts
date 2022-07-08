@@ -5,5 +5,6 @@
 export type TableMeta = {
     name?: string;
     types?: Record<string, string>;
+    has_more?: boolean;
 };
 

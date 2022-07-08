@@ -9,11 +9,20 @@ ValueType = tp.Union[float, int, str, datetime.date]
 class TableMeta(BaseModel):
     name: str = ''
     types: dict[str, str] = dict()
+    has_more: bool = False
 
 
 class Table(BaseModel):
     rows: list[dict[str, ValueType]] = []
     meta: TableMeta = TableMeta()
+
+
+class UniqueValues(BaseModel):
+    values: list[ValueType]
+
+
+class FilterNames(BaseModel):
+    names: list[str]
 
 
 class FileId(BaseModel):

@@ -1,0 +1,49 @@
+.bigContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-weight: 400;
+    font-family: 'Inter', sans-serif;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.container {
+    text-transform: none;
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    gap: 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.6rem;
+    color: black;
+    max-height: 15.3rem;
+    overflow-y: auto;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+}
+
+.tick {
+    grid-column: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(8, 103, 131);
+}
+
+.text {
+    grid-column: 2;
+    display: flex;
+    text-align: left;
+    align-items: center;
+}
+
+.tickHidden {
+    visibility: hidden;
+}
+
+.clear {
+    text-transform: none;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+

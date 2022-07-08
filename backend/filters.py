@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from datetime import datetime as dt
+import typing as tp
 
 import pandas as pd
 import numpy as np
@@ -30,7 +31,11 @@ class ListFilter(Filter):
     def filter(df: pd.DataFrame, *args) -> pd.Series:
         # args[0] - column's name
         # args[1] - value list
-        return np.vectorize(lambda x: x in args[1])(df[args[0]])
+        def check(x: tp.Any) -> bool:
+            if type(x) == pd.Timestamp:
+                return x.isoformat()[:10] in args[1]
+            return x in args[1]
+        return np.vectorize(check)(df[args[0]])
 
 
 class FromFilter(Filter):

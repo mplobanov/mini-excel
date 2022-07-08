@@ -1,0 +1,38 @@
+.chip {
+    padding: 4px 10px;
+    border-radius: 50px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+}
+
+.chipGroup {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+}
+
+.checked {
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+}
+
+.notChecked {
+
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    margin-bottom: 1rem;
+}
+
+.container:last-child {
+    margin-bottom: 0;
+}
+
+.title {
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.6);
+}

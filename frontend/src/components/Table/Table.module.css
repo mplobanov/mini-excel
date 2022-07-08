@@ -69,3 +69,9 @@ thead {
     text-decoration: none;
     color: black;
 }
+
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

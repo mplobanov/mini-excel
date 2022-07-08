@@ -1,8 +1,10 @@
 import pandas as pd
 from models import *
-from filters import filterDF
+from filters import filterDF, ListFilter, FromFilter, ToFilter, QuantileFilter
+import numpy as np
 
-def get_type(type: str) -> str:
+
+def convert_type(type: str) -> str:
     if 'object' in type:
         return 'string'
     elif 'datetime' in type:
@@ -11,6 +13,18 @@ def get_type(type: str) -> str:
         return 'number'
     elif 'float' in type:
         return 'float'
+
+
+def get_type(df: pd.DataFrame, field_name: str) -> str:
+    return convert_type(str(df.dtypes[field_name]))
+
+
+FILTERS = {
+    'string': [ListFilter],
+    'number': [ListFilter, FromFilter, ToFilter, QuantileFilter],
+    'float': [ListFilter, FromFilter, ToFilter, QuantileFilter],
+    'datetime': [ListFilter]
+}
 
 
 TABLES: dict[str, pd.DataFrame] = dict()
@@ -25,7 +39,28 @@ def get_tbl(file_id: str) -> pd.DataFrame:
 def get_table(file_id: str, limit: int = 20, filter_group: FilterGroup = FilterGroup()) -> Table:
     tbl = get_tbl(file_id)
     tbl = filterDF(tbl, filter_group)
-    rows = tbl.apply(lambda row: {name: row[name] for name in tbl.columns}, axis=1).to_list()[:limit]
+    rws = tbl.apply(lambda row: {name: row[name] for name in tbl.columns}, axis=1)
+    rows = []
+    has_more = False
+    if rws.shape[0]:
+        rows = rws.to_list()
+        if len(rows) > limit:
+            has_more = True
+            rows = rows[:limit]
     return Table(rows=rows, meta=TableMeta(name=file_id, types={
-        x: get_type(str(tbl.dtypes[x])) for x in tbl.columns.to_list()
-    }))
+        x: get_type(tbl, x) for x in tbl.columns.to_list()
+    }, has_more=has_more))
+
+
+def get_unique_vals(file_id: str, field_name: str, limit: int) -> list[ValueType]:
+    df = get_tbl(file_id)
+    lst = list(df[field_name].unique())
+    lst.sort()
+    if len(lst) > 0 and type(lst[0]) == np.datetime64:
+        lst = [str(x)[:10] for x in lst]
+    return lst[:limit]
+
+
+def get_filters(file_id: str, field_name: str) -> list[str]:
+    df = get_tbl(file_id)
+    return [x.__name__ for x in FILTERS[get_type(df, field_name)]]

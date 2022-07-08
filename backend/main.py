@@ -47,3 +47,13 @@ async def create_upload_file(file: UploadFile):
 @app.post('/{file_id}', response_model=Table)
 async def get_file(file_id: str, limit: int = 20, filter_group: FilterGroup = FilterGroup()):
     return get_table(file_id, limit, filter_group)
+
+
+@app.get('/{file_id}/unique}', response_model=UniqueValues)
+async def get_unique_req(file_id: str, field: str, limit: int = 20):
+    return UniqueValues(values=get_unique_vals(file_id, field, limit))
+
+
+@app.get('/{file_id}/filters}', response_model=FilterNames)
+async def get_filters_req(file_id: str, field: str):
+    return FilterNames(names=get_filters(file_id, field))
